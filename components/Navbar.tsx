@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Home, Store, Library, User, ShoppingBag, Shield, Menu, FileClock } from "lucide-react";
 
 // --- CONFIGURATION ---
-// THE FIX: We explicitly tell TypeScript this can be one of three specific values.
-const MOCK_ROLE: 'guest' | 'user' | 'admin' = 'user'; 
+// UPDATED: Set to 'admin' to see the Admin Link in the demo
+const MOCK_ROLE: 'guest' | 'user' | 'admin' = 'admin'; 
 
 export default function Navbar() {
   const pathname = usePathname(); 
@@ -24,7 +24,7 @@ export default function Navbar() {
     { name: "Home", href: "/", icon: <Home className="w-6 h-6" /> },
     { name: "Shop", href: "/shop", icon: <Store className="w-6 h-6" /> },
     { name: "Library", href: "/library", icon: <Library className="w-6 h-6" /> },
-    { name: "Profile", href: MOCK_ROLE === 'user' ? "/settings" : "/login", icon: <User className="w-6 h-6" /> },
+    { name: "Profile", href: MOCK_ROLE === 'user' || MOCK_ROLE === 'admin' ? "/settings" : "/login", icon: <User className="w-6 h-6" /> },
   ];
 
   return (
@@ -40,7 +40,7 @@ export default function Navbar() {
         }`}
       >
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-          
+
           {/* Logo */}
           <Link href="/" className="text-xl font-bold tracking-tighter text-white flex items-center gap-2">
             <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
@@ -53,8 +53,8 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="/shop" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Shop</Link>
             <Link href="/about" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">About</Link>
-            
-            {MOCK_ROLE === 'user' && (
+
+            {(MOCK_ROLE === 'user' || MOCK_ROLE === 'admin') && (
               <Link href="/library" className="text-sm font-medium text-white hover:text-blue-400">My Library</Link>
             )}
 
@@ -99,10 +99,10 @@ export default function Navbar() {
       ======================================= */}
       <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
         <div className="bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl px-6 py-4 flex justify-between items-center">
-          
+
           {mobileTabs.map((tab) => {
             const isActive = pathname === tab.href;
-            
+
             return (
               <Link 
                 key={tab.name} 

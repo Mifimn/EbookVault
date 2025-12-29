@@ -1,63 +1,67 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, UploadCloud } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, UploadCloud, Settings, LogOut } from "lucide-react";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  const tabs = [
-    { name: "Overview", href: "/admin", icon: <LayoutDashboard className="w-4 h-4" /> },
-    { name: "Products", href: "/admin/products", icon: <Package className="w-4 h-4" /> },
-    { name: "Upload", href: "/admin/upload", icon: <UploadCloud className="w-4 h-4" /> },
+  const navigation = [
+    { name: "Overview", href: "/admin", icon: LayoutDashboard },
+    { name: "Products", href: "/admin/products", icon: ShoppingBag },
+    { name: "Upload", href: "/admin/upload", icon: UploadCloud },
+    { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white pb-20">
-      
-      {/* Admin Header */}
-      <div className="border-b border-white/10 bg-neutral-900/50 backdrop-blur-md sticky top-0 z-30 pt-20">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-6">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Command Center</h1>
-              <p className="text-gray-400 text-sm">Manage your digital empire</p>
-            </div>
-            <div className="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono">
-              ADMIN MODE
-            </div>
-          </div>
+    <div className="min-h-screen bg-black text-white pt-24 pb-12">
+      <div className="container px-4 mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8">
 
-          {/* Admin Tabs */}
-          <div className="flex gap-6 overflow-x-auto">
-            {tabs.map((tab) => {
-              const isActive = pathname === tab.href;
+          {/* SIDEBAR NAVIGATION */}
+          <aside className="w-full lg:w-64 flex-shrink-0 space-y-2">
+            <div className="mb-6 px-4">
+              <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Admin Panel</h2>
+            </div>
+
+            {navigation.map((item) => {
+              const isActive = pathname === item.href;
+              const Icon = item.icon;
+
               return (
                 <Link 
-                  key={tab.name} 
-                  href={tab.href}
-                  className={`pb-4 text-sm font-medium flex items-center gap-2 border-b-2 transition-colors ${
+                  key={item.name} 
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     isActive 
-                      ? "border-blue-500 text-blue-400" 
-                      : "border-transparent text-gray-500 hover:text-white"
+                      ? "bg-white text-black shadow-lg shadow-white/10" 
+                      : "text-gray-400 hover:text-white hover:bg-white/5"
                   }`}
                 >
-                  {tab.icon}
-                  {tab.name}
+                  <Icon className="w-4 h-4" />
+                  {item.name}
                 </Link>
               );
             })}
-          </div>
-        </div>
-      </div>
 
-      {/* Page Content */}
-      <div className="container mx-auto px-4 py-8">
-        {children}
+            {/* Logout Button */}
+            <div className="pt-4 mt-4 border-t border-white/10">
+              <Link 
+                href="/login"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Link>
+            </div>
+          </aside>
+
+          {/* MAIN CONTENT AREA */}
+          <main className="flex-1">
+            {children}
+          </main>
+
+        </div>
       </div>
     </div>
   );
