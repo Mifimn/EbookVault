@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ShoppingBag, UploadCloud, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, UploadCloud, Settings, LogOut, Megaphone } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -9,6 +9,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navigation = [
     { name: "Overview", href: "/admin", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: ShoppingBag },
+    { name: "Marketing", href: "/admin/marketing", icon: Megaphone }, // <--- NEW TAB
     { name: "Upload", href: "/admin/upload", icon: UploadCloud },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
@@ -17,17 +18,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-black text-white pt-24 pb-12">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row gap-8">
-
+          
           {/* SIDEBAR NAVIGATION */}
           <aside className="w-full lg:w-64 flex-shrink-0 space-y-2">
             <div className="mb-6 px-4">
               <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Admin Panel</h2>
             </div>
-
+            
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               const Icon = item.icon;
-
+              
               return (
                 <Link 
                   key={item.name} 

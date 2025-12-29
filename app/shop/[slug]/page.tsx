@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, ShieldCheck, Zap, Star } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ShieldCheck, Zap, Star, BookOpen } from "lucide-react"; // <--- Added BookOpen
 import { Button } from "../../../components/ui/Button"; 
 
 // --- DATA ---
@@ -180,16 +180,28 @@ export default function ProductPage() {
               </p>
             </motion.div>
 
-            {/* Price & Buy Block */}
+            {/* Price & Buy Block (UPDATED) */}
             <motion.div variants={itemVariants} className="p-1 rounded-2xl bg-gradient-to-r from-gray-800 to-gray-900">
               <div className="bg-black rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div>
                   <p className="text-gray-400 text-sm mb-1 uppercase tracking-wider font-semibold">Instant Access</p>
                   <div className="text-4xl font-bold text-white">${product.price}</div>
                 </div>
-                <Button variant="primary" className="h-14 px-10 text-lg w-full sm:w-auto">
-                  <Zap className="w-5 h-5 mr-2 fill-black" /> Buy Now
-                </Button>
+                
+                {/* --- BUTTONS: BUY & PREVIEW --- */}
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                  <Button variant="primary" className="h-14 px-10 text-lg flex-1">
+                    <Zap className="w-5 h-5 mr-2 fill-black" /> Buy Now
+                  </Button>
+                  
+                  {/* PREVIEW BUTTON */}
+                  <Link href={`/reader/${slug}?preview=true`} className="flex-1">
+                    <Button variant="secondary" className="h-14 px-8 text-lg w-full">
+                      <BookOpen className="w-5 h-5 mr-2" /> Read Preview
+                    </Button>
+                  </Link>
+                </div>
+
               </div>
             </motion.div>
 
