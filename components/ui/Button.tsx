@@ -3,10 +3,12 @@ import { motion, HTMLMotionProps } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ReactNode } from "react";
 
-// FIX: Omit 'children' from HTMLMotionProps and strictly define it as ReactNode.
-// This fixes the "Type 'MotionValueNumber' is not assignable" error.
+// FIX: 
+// 1. Add 'size' prop so the Marketing Page can use size="sm"
+// 2. Use Omit<HTMLMotionProps...> to keep the 'onDrag' fix active
 interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
   variant?: "primary" | "secondary" | "danger" | "ghost";
+  size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   children: ReactNode;
 }
@@ -14,6 +16,7 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 export function Button({ 
   children, 
   variant = "primary", 
+  size = "md", 
   isLoading, 
   className = "", 
   ...props 
@@ -26,12 +29,18 @@ export function Button({
     ghost: "bg-transparent text-gray-400 hover:text-white hover:bg-white/5",
   };
 
+  const sizes = {
+    sm: "h-9 px-4 text-sm",
+    md: "h-12 px-6 text-base",
+    lg: "h-14 px-8 text-lg",
+  };
+
   return (
     <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       disabled={isLoading || props.disabled}
-      className={`h-12 px-6 rounded-full font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
+      className={`rounded-full font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
