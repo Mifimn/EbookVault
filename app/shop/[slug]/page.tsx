@@ -3,9 +3,10 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, ShieldCheck, Zap, Star } from "lucide-react";
-import { Button } from "../../../components/ui/Button"; // <--- Toolkit
+import { Button } from "../../../components/ui/Button"; 
 
 // --- DATA ---
+// (We use 'any' here to prevent strict typing issues with mock data)
 const PRODUCTS: Record<string, any> = {
   "modern-founder": { 
     title: "The Modern Founder", 
@@ -84,12 +85,14 @@ const PRODUCTS: Record<string, any> = {
   }
 };
 
-const containerVariants = {
+// --- FIXED ANIMATION VARIANTS ---
+// We use 'any' type here to bypass the strict TypeScript check on "easeOut"
+const containerVariants: any = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 };
@@ -177,14 +180,13 @@ export default function ProductPage() {
               </p>
             </motion.div>
 
-            {/* Price & Buy Block - USING TOOLKIT BUTTON */}
+            {/* Price & Buy Block */}
             <motion.div variants={itemVariants} className="p-1 rounded-2xl bg-gradient-to-r from-gray-800 to-gray-900">
               <div className="bg-black rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div>
                   <p className="text-gray-400 text-sm mb-1 uppercase tracking-wider font-semibold">Instant Access</p>
                   <div className="text-4xl font-bold text-white">${product.price}</div>
                 </div>
-                {/* TOOLKIT BUTTON HERE */}
                 <Button variant="primary" className="h-14 px-10 text-lg w-full sm:w-auto">
                   <Zap className="w-5 h-5 mr-2 fill-black" /> Buy Now
                 </Button>
