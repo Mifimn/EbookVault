@@ -1,11 +1,14 @@
 "use client";
 import { motion, HTMLMotionProps } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { ReactNode } from "react";
 
-// FIX: Extend HTMLMotionProps to prevent the 'onDrag' conflict
-interface ButtonProps extends HTMLMotionProps<"button"> {
+// FIX: Omit 'children' from HTMLMotionProps and strictly define it as ReactNode.
+// This fixes the "Type 'MotionValueNumber' is not assignable" error.
+interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
   variant?: "primary" | "secondary" | "danger" | "ghost";
   isLoading?: boolean;
+  children: ReactNode;
 }
 
 export function Button({ 
