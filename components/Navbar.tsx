@@ -6,8 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Home, Store, Library, User, ShoppingBag, Shield, Menu } from "lucide-react";
 
 // --- CONFIGURATION ---
-// 1. SET TO 'user' FOR DEMO MODE (Shows Settings & Library)
-const MOCK_ROLE = 'user'; 
+// THE FIX: We explicitly tell TypeScript this can be one of three specific values.
+// This stops the "no overlap" error.
+const MOCK_ROLE: 'guest' | 'user' | 'admin' = 'user'; 
 
 export default function Navbar() {
   const pathname = usePathname(); 
