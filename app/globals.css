@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* --- MASTER COLOR CONTROL --- */
+  /* Change these values to update the whole site instantly */
+  
+  /* Backgrounds */
+  --bg-main: #ffffff;       /* Pure White */
+  --bg-secondary: #f8fafc;  /* Light Gray (for sections) */
+  --bg-dark: #0a0a0a;       /* Pure Black (for Hero) */
+
+  /* Text Colors */
+  --text-main: #0a0a0a;     /* Black text on white */
+  --text-inverted: #ffffff; /* White text on black */
+  --text-muted: #64748b;    /* Gray text */
+
+  /* Brand Accents */
+  --accent: #000000;        /* Main buttons/highlights (Black) */
+  --accent-hover: #333333;  /* Hover state */
+  
+  /* Borders */
+  --border-light: #e2e8f0;
+}
+
+/* Smooth Scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text-main);
+  background: var(--bg-main);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden; /* Prevents side-scrolling glitches */
+}
+
+/* --- UTILITY CLASSES --- */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to right, #fff, #999);
+}
