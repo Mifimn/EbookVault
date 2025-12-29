@@ -1,10 +1,8 @@
 "use client";
-import { motion, HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
-// THE FIX: Extend 'HTMLMotionProps<"button">' instead of standard React attributes.
-// This resolves the conflict between the 'onDrag' types.
-interface ButtonProps extends HTMLMotionProps<"button"> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "ghost";
   isLoading?: boolean;
 }
@@ -16,7 +14,7 @@ export function Button({
   className = "", 
   ...props 
 }: ButtonProps) {
-
+  
   const variants = {
     primary: "bg-white text-black hover:bg-gray-200 shadow-[0_0_20px_rgba(255,255,255,0.3)]",
     secondary: "bg-neutral-800 text-white border border-white/10 hover:bg-neutral-700",

@@ -3,11 +3,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, Store, Library, User, ShoppingBag, Shield, Menu, FileClock } from "lucide-react";
+import { Home, Store, Library, User, ShoppingBag, Shield, Menu } from "lucide-react";
 
 // --- CONFIGURATION ---
-// UPDATED: Set to 'admin' to see the Admin Link in the demo
-const MOCK_ROLE: 'guest' | 'user' | 'admin' = 'admin'; 
+// 1. SET TO 'user' FOR DEMO MODE (Shows Settings & Library)
+const MOCK_ROLE = 'user'; 
 
 export default function Navbar() {
   const pathname = usePathname(); 
@@ -24,7 +24,8 @@ export default function Navbar() {
     { name: "Home", href: "/", icon: <Home className="w-6 h-6" /> },
     { name: "Shop", href: "/shop", icon: <Store className="w-6 h-6" /> },
     { name: "Library", href: "/library", icon: <Library className="w-6 h-6" /> },
-    { name: "Profile", href: MOCK_ROLE === 'user' || MOCK_ROLE === 'admin' ? "/settings" : "/login", icon: <User className="w-6 h-6" /> },
+    // Logic: If user, go to Settings. If guest, go to Login.
+    { name: "Profile", href: MOCK_ROLE === 'user' ? "/settings" : "/login", icon: <User className="w-6 h-6" /> },
   ];
 
   return (
@@ -40,7 +41,7 @@ export default function Navbar() {
         }`}
       >
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-
+          
           {/* Logo */}
           <Link href="/" className="text-xl font-bold tracking-tighter text-white flex items-center gap-2">
             <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
@@ -53,8 +54,8 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="/shop" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Shop</Link>
             <Link href="/about" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">About</Link>
-
-            {(MOCK_ROLE === 'user' || MOCK_ROLE === 'admin') && (
+            
+            {MOCK_ROLE === 'user' && (
               <Link href="/library" className="text-sm font-medium text-white hover:text-blue-400">My Library</Link>
             )}
 
@@ -64,18 +65,19 @@ export default function Navbar() {
                </Link>
             )}
 
-            {/* Cart Icon */}
+            {/* 2. CART ICON (Now a Link, not a Button) */}
             <Link href="/cart" className="relative p-2 text-gray-300 hover:text-white transition-colors">
-              <FileClock className="w-5 h-5" />
+              <ShoppingBag className="w-5 h-5" />
               <span className="absolute top-0 right-0 w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
             </Link>
 
-            {/* Profile / Login */}
+            {/* 3. PROFILE / LOGIN BUTTON */}
             {MOCK_ROLE === 'guest' ? (
                <Link href="/login" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200">
                  Login
                </Link>
             ) : (
+               // Wrapper Link added here for Settings
                <Link href="/settings"> 
                  <div className="w-8 h-8 rounded-full bg-neutral-800 border border-white/20 flex items-center justify-center hover:border-white transition-colors cursor-pointer">
                     <span className="font-bold text-xs text-white">JD</span>
@@ -86,8 +88,9 @@ export default function Navbar() {
 
           {/* --- MOBILE TOP RIGHT (Cart Only) --- */}
           <div className="md:hidden flex items-center gap-4">
+             {/* Mobile Cart Link */}
              <Link href="/cart" className="relative text-white">
-                <FileClock className="w-6 h-6" />
+                <ShoppingBag className="w-6 h-6" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full text-[8px] flex items-center justify-center font-bold">2</span>
              </Link>
           </div>
@@ -99,10 +102,10 @@ export default function Navbar() {
       ======================================= */}
       <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
         <div className="bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl px-6 py-4 flex justify-between items-center">
-
+          
           {mobileTabs.map((tab) => {
             const isActive = pathname === tab.href;
-
+            
             return (
               <Link 
                 key={tab.name} 

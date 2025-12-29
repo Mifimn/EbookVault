@@ -1,20 +1,23 @@
-"use client";
-import { motion, HTMLMotionProps } from "framer-motion";
-
-// FIX: Extend HTMLMotionProps to prevent TypeScript conflicts
-interface InputProps extends HTMLMotionProps<"input"> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  error?: string;
 }
 
-export function Input({ label, className = "", ...props }: InputProps) {
+export function Input({ label, error, className = "", ...props }: InputProps) {
   return (
     <div className="space-y-2">
-      {label && <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">{label}</label>}
-      <motion.input
-        whileFocus={{ scale: 1.01, borderColor: "rgba(59, 130, 246, 0.5)" }}
-        className={`w-full h-12 px-4 rounded-xl bg-neutral-900 border border-white/10 text-white placeholder:text-gray-600 focus:outline-none transition-all ${className}`}
+      {label && <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">{label}</label>}
+      
+      <input
+        className={`w-full bg-black border rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-2 transition-all ${
+          error 
+            ? "border-red-500 focus:ring-red-500/20" 
+            : "border-white/10 focus:border-blue-500 focus:ring-blue-500/20"
+        } ${className}`}
         {...props}
       />
+      
+      {error && <p className="text-red-400 text-xs font-medium animate-pulse">{error}</p>}
     </div>
   );
 }
