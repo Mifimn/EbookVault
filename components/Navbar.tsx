@@ -8,7 +8,7 @@ import { Home, Store, Library, User, ShoppingBag, Shield, Menu } from "lucide-re
 // --- CONFIGURATION ---
 // THE FIX: We explicitly tell TypeScript this can be one of three specific values.
 // This stops the "no overlap" error.
-const MOCK_ROLE: 'guest' | 'user' | 'admin' = 'user'; 
+const MOCK_ROLE: 'guest' | 'user' | 'admin' = 'admin'; 
 
 export default function Navbar() {
   const pathname = usePathname(); 
